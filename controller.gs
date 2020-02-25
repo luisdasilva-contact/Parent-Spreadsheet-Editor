@@ -1,6 +1,3 @@
-// this was added in last minute - almost certainly a giant mess
-
-
 /**
  * controller object acting as a mediator between the UI and user-stored 
       properties.
