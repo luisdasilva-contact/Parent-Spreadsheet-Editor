@@ -1,36 +1,25 @@
 /*
- * Module used to retrieve properties related to the email the user will send 
-      out. Contains the following functions: 
- * @return {function} getEmails Retrieves the string of emails as a 
-      comma-separated array. If the string cannot be parsed as such, null is 
-      returned.
- * @return {function} getCC Retrieves the string of CC emails as a 
-      comma-separated array. If the string cannot be parsed as such, null is 
-      returned.
- * @return {function} getSubject Gets the subject string. If there is no string, 
-      or it can't be returned, null is returned.
- * @return {function} getBodyText Gets the body text string. If there is no body 
-      text, or it can't be returned, null is returned.
- * @return {function} setProperty Sets the given property with the given 
-      userInput as a value.
- * @return {function} Retrieves an enum object for folderProperties.
+ * Class used to retrieve the program's user-set properties.
  */ 
-var folderProperties = (function() {  
-  var properties = PropertiesService.getDocumentProperties();
-  var userList = properties.getProperty('USER_LIST');
-  var adminEmailList = properties.getProperty('ADMIN_EMAIL_LIST');
-  var folderID = properties.getProperty('FOLDER_ID');
-  var titleAppend = properties.getProperty('TITLE_APPEND');
-  
+class folderProperties {  
+  constructor() {
+    this.properties = PropertiesService.getDocumentProperties();
+    this.userList = this.properties.getProperty('USER_LIST');
+    this.adminEmailList = this.properties.getProperty('ADMIN_EMAIL_LIST');
+    this.folderID = this.properties.getProperty('FOLDER_ID');
+    this.titleAppend = this.properties.getProperty('TITLE_APPEND');
+    this.protectionBool = this.properties.getProperty('PROTECTION_BOOL');
+  };
+    
   /*
    * Retrieves the string of user names as a comma-separated array. If the 
         string cannot be parsed as such, null is returned.
    * @return {?array<string>} String array of emails. If string can't be split 
         by comma, null is returned.
    */
-  function getUserList(){
+ getUserList(){
       try {            
-          return userList.split(',');
+          return this.userList.split(',');
       } catch (error){
           return null;
       };
@@ -42,9 +31,9 @@ var folderProperties = (function() {
    * @return {?array<string>} String array of emails. If string can't be split 
         by comma, null is returned.
    */
-  function getAdminEmailList(){
+  getAdminEmailList(){
       try {            
-          return adminEmailList.split(',');
+          return this.adminEmailList.split(',');
       } catch (error){
           return null;
       };
@@ -56,21 +45,43 @@ var folderProperties = (function() {
    * @return {?string} Subject string. If it can't be returned, null is 
       returned.
    */
-  function getFolderID(){
+ getFolderID(){
       try {            
-          return folderID;
+          return this.folderID;
       } catch (error){
           return null;
       };
   };
-  
-  function getTitleAppend(){
+
+  /*
+   * Gets the user-defined string to append to spreadsheets they create. 
+        If there is no string, or it can't be returned, null is returned.
+   * @return {?string} Title string. If it can't be returned, null is 
+        returned.
+   */  
+  getTitleAppend(){
       try {            
-          return titleAppend;
+          return this.titleAppend;
       } catch (error){
           return null;
       };
-  }
+  };
+
+  /*
+   * Gets the user-defined protection boolean. If true, protections from the 
+        master Spreadsheet will be applied to child Spreadsheets. If false,
+        protections will not be updated. If there is no string, or it can't 
+        be returned, null is returned.
+   * @return {?string} Boolean string. If it can't be returned, null is 
+        returned.
+   */   
+  getProtectionBool(){
+     try {            
+          return this.protectionBool;
+      } catch (error){
+          return null;
+      };
+  };
           
   /*
    * Sets the given property with the given userInput as a value.
@@ -79,32 +90,45 @@ var folderProperties = (function() {
    * @param {string} userInput The value that will be set in Google's Property 
         Service (the "value").
    */
-  function setProperty(property, userInput){
-      properties.setProperty(property, userInput);  
+  setProperty(property, userInput){
+      this.properties.setProperty(property, userInput);  
   };
+};
 
-  return {
-      getUserList: getUserList,
-      getAdminEmailList: getAdminEmailList,
-      getFolderID: getFolderID,    
-      getTitleAppend: getTitleAppend,
-      setProperty: setProperty,
-  };  
-})();
-
-function initializeAllSheetsSample_() {
-  var nameList = folderProperties.getUserList();
-  var driveFolderID = folderProperties.getFolderID();
-  var appendToTitle = folderProperties.getTitleAppend(); 
+function initializeAllSheets_() {
+  let nameList = folderPropertiesObj.getUserList();
+  let driveFolderID = folderPropertiesObj.getFolderID();
+  let appendToTitle = folderPropertiesObj.getTitleAppend(); 
   
   if (!appendToTitle){
     appendToTitle = '';
-  }
+  };
+  
+  if (!nameList){
+    UiFunctions.displayAlert(`You must set at least one title in the Initialize
+    Sheets --> Set User Names menu.`);  
+    return;
+  };
+  
+  if (!driveFolderID){
+    UiFunctions.displayAlert(`You must set the Drive folder's ID in the Initialize
+    Sheets --> Set Drive Folder ID menu.`)
+  };
+  
   try {
-    userSheetsModule_.createNewSpreadsheets(driveFolderID, nameList, 
+    sheetsToDriveInteractionsObj.createNewSpreadsheets(driveFolderID, nameList, 
       appendToTitle);  
     } catch(error){
-      UiFunctions.displayAlert('An error has occurred. Please ensure that all' + 
-      'values in the Initialize Sheets menu have been set properly.');      
-    };
+      UiFunctions.displayAlert(`An error has occurred. Please ensure that all 
+      values in the Initialize Sheets menu have been set properly.`);      
+    };  
+  
 };
+
+const contentPropertyEnum = {
+  USER_LIST: "USER_LIST",
+  FOLDER_ID: "FOLDER_ID",
+  TITLE_APPEND: "TITLE_APPEND"
+};
+
+const folderPropertiesObj = new folderProperties();

@@ -1,82 +1,67 @@
-// this was added in last minute - almost certainly a giant mess
-
-
 /**
- * controller object acting as a mediator between the UI and user-stored 
-      properties.
- * @return {function} setContent Sets the user's entered content as a property 
-      via Google's Properties Service, dependant upon an entered enum. 
- * @return {function} clearAllProperties Deletes all of the document's
-      properties related to this application.
+ * Class acting as a mediator between the UI and user-stored properties.
  */
-var controller = (function() {
+class controller {
+  constructor() {
+    this.existingListText_ = `The existing entry is: \n`;
+  }
   /**
    * Sets the user's entered content as a property via Google's Properties 
         Service, dependant upon an entered enum. 
    * @param {string} The value that will be set as a property in the Properties 
         Service.
-   */
-  function setContent(enum) {
-    switch (enum) {
-      case ('USER_LIST'):
-        var currentUserList = folderProperties.getUserList();
-        var UiPromptString =
-          'Please enter a list of comma-separated names, or a single name, ' +
-          'that will each have their own Spreadsheet, made from the Master ' +
-          'Sheet. ';
-        var existingListPrepend = 'The existing list is as follows: \n' +
-          currentUserList;
-        var propertyToSet = 'USER_LIST';
-
+   */  
+  setContent(enumValue) {
+    switch (enumValue) {
+      case (contentPropertyEnum.USER_LIST):
+        const currentUserList = folderPropertiesObj.getUserList();
+        let UiNamePromptString =
+            `Please enter a list of comma-separated names, or a single name, 
+            that will each have their own Spreadsheet, made from the Master 
+            Sheet.`;
+          
         if (currentUserList) {
-          UiPromptString = UiPromptString + existingListPrepend;
+          UiNamePromptString += this.existingListText_ + currentUserList;
         };
 
-        setText(UiPromptString, propertyToSet);
+        this.setText_(UiNamePromptString, enumValue);
         break;
-      case ('ADMIN_EMAIL_LIST'):
-        var currentAdminEmailList = folderProperties.getAdminEmailList();
-        var UiPromptString =
-          'Please enter a list of comma-separated emails, or a single email, ' + 
-          'that will be the editors for this master sheet. ';
-        var existingListPrepend = 'The existing list is as follows: \n' +
-          currentAdminEmailList;
-        var propertyToSet = 'ADMIN_EMAIL_LIST';
+      case (contentPropertyEnum.ADMIN_LIST):
+        const currentAdminEmailList = folderPropertiesObj.getAdminEmailList();
+        let UiAdminEmailPromptString =
+            `Please enter a list of comma-separated emails, or a single email, 
+            that will be the editors for this master sheet.`;
 
         if (currentAdminEmailList) {
-          UiPromptString += existingListPrepend;
+          UiAdminEmailPromptString += 
+              this.existingListText_ + currentAdminEmailList;
         };
 
-        setEmails(UiPromptString, propertyToSet);
+        this.setEmails_(UiAdminEmailPromptString, enumValue);
         break;
-      case ('FOLDER_ID'):
-        var currentFolderID = folderProperties.getFolderID();
-        var UiPromptString =
-          'Please enter the Drive Folder\s ID. ';
-        var existingIDPrepend = 'The existing ID is as follows: \n' +
-          currentFolderID;
-        var propertyToSet = 'FOLDER_ID';
+      case (contentPropertyEnum.FOLDER_ID):
+        const currentFolderID = folderPropertiesObj.getFolderID();
+        let UiFolderIDPromptString =
+            `Please enter the Google Drive folder's ID. This is the alphanumeric code 
+            in the URL when you navigate to the Drive folder in question.`;
 
         if (currentFolderID) {
-          UiPromptString += existingIDPrepend;
+          UiFolderIDPromptString += this.existingListText_ + currentFolderID;
         };
 
-        setText(UiPromptString, propertyToSet);
+        this.setText_(UiFolderIDPromptString, enumValue);
         break;   
-      case ('TITLE_APPEND'):
-        var currentTitleAppend = folderProperties.getTitleAppend();
-        var UiPromptString = 
-          'Please enter the title you\'d like appended to each user\s ' +
-          'sheet.'
-        var existingListPrepend = 'The existing text is as follows: \n' +
-          currentTitleAppend;
-        var propertyToSet = 'TITLE_APPEND';
+      case (contentPropertyEnum.TITLE_APPEND):
+        const currentTitleAppend = folderPropertiesObj.getTitleAppend();
+        let UiTitlePromptString = 
+            `Please enter the title you'd like appended to each user's
+            sheet.`;
         
         if (currentTitleAppend){
-          UiPromptString += existingIDPrepend;
+          UiTitlePromptString += this.existingListText_ + currentTitleAppend;
         };
         
-        setText(UiPromptString, propertyToSet);
+        this.setText_(UiTitlePromptString, enumValue);
         break;
     };      
   };
@@ -89,25 +74,27 @@ var controller = (function() {
    * @param {string} propertyToSet The property that will be set via Properties 
         Service.
    */
-  function setEmails(UiPromptString, propertyToSet) {
+  setEmails_(UiPromptString, propertyToSet) {
     const EMAIL_REGEX = /[a-zA-Z0-9._%-]+@[a-zA-Z\d\-]+./;
-    var setEmailsWindowResponse = UiFunctions.displayPrompt(UiPromptString);
+    let setEmailsWindowResponse = UiFunctions.displayPrompt(UiPromptString);
 
     if (setEmailsWindowResponse) {
-      var emailsSplit = setEmailsWindowResponse.split(',');
-      var validResponse = true;
-      const ERROR_TEXT = 'Error! This email is not valid: ';
+      let EMAIL_ERROR_TEXT = 'Error! This email is not valid: ';
+      let clearNewlineRegex = /(\r\n|\n|\r)/gm;
+      EMAIL_ERROR_TEXT = EMAIL_ERROR_TEXT.replace(clearNewlineRegex," ");
+      const emailsSplit = setEmailsWindowResponse.split(',');
+      let validResponse = true;      
 
-      for (var email in emailsSplit){
+      for (let email in emailsSplit){
         if (!EMAIL_REGEX.test(emailsSplit[email])){
-          UiFunctions.displayAlert(ERROR_TEXT + emailsSplit[email]);
+          UiFunctions.displayAlert(EMAIL_ERROR_TEXT + emailsSplit[email]);
           validResponse = false;
           break;
         };  
       };
 
       if (validResponse) {
-        folderProperties.setProperty(propertyToSet, setEmailsWindowResponse);
+        folderPropertiesObj.setProperty(propertyToSet, setEmailsWindowResponse);
       };
     };
   };
@@ -119,23 +106,41 @@ var controller = (function() {
    * @param {string} propertyToSet The property that will be set via Properties 
         Service.
    */
-  function setText(UiPromptString, propertyToSet) {
-    var setSubjectWindowResponse = UiFunctions.displayPrompt(
-    UiPromptString);
+  setText_(UiPromptString, propertyToSet) {
+    const setSubjectWindowResponse = UiFunctions.displayPrompt(UiPromptString);
+    
     if (setSubjectWindowResponse) {
-      folderProperties.setProperty(propertyToSet, setSubjectWindowResponse);
+      folderPropertiesObj.setProperty(propertyToSet, setSubjectWindowResponse);
+    };
+  };
+
+  /**
+    * Sets an internal boolean to whether or not protections will be carried from 
+          the master sheet to its children.
+   */
+  applyPermissions_() {
+    let applyPermissionsBool = UiFunctions.displayYesNoChoice(`Would you like 
+        changes in range and sheet protections to be applied to the target 
+        range(s) and sheet(s)?`);
+    
+    switch(applyPermissionsBool){
+      case "YES":
+        folderPropertiesObj.setProperty('PROTECTION_BOOL', "true");
+        break;
+      case "NO":
+        folderPropertiesObj.setProperty('PROTECTION_BOOL', "false");
+        break;
+      default:
+        return;
     };
   };
 
   /**
    * Deletes all of the document's properties related to this application.
    */
-  function clearAllProperties() {
+  clearAllProperties() {
     PropertiesService.getDocumentProperties().deleteAllProperties();
   };
+};
 
-  return {
-    setContent: setContent,
-    clearAllProperties: clearAllProperties
-  };
-})();
+const controllerObj = new controller();
