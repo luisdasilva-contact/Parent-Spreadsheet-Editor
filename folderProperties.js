@@ -99,6 +99,7 @@ function initializeAllSheets_() {
   let nameList = folderPropertiesObj.getUserList();
   let driveFolderID = folderPropertiesObj.getFolderID();
   let appendToTitle = folderPropertiesObj.getTitleAppend(); 
+  let UiFunctions = new UiClass();
   
   if (!appendToTitle){
     appendToTitle = '';

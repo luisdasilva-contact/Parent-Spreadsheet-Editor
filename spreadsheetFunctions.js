@@ -90,6 +90,7 @@
         new editors for the range.}
      */
     replaceRangeProtections(ranges, newEditors){
+      let UiFunctions = new UiClass();
       ranges = convertToArray(ranges);
 
       try {

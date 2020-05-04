@@ -75,6 +75,7 @@ class controller {
         Service.
    */
   setEmails_(UiPromptString, propertyToSet) {
+    let UiFunctions = new UiClass();
     const EMAIL_REGEX = /[a-zA-Z0-9._%-]+@[a-zA-Z\d\-]+./;
     let setEmailsWindowResponse = UiFunctions.displayPrompt(UiPromptString);
 
@@ -107,6 +108,7 @@ class controller {
         Service.
    */
   setText_(UiPromptString, propertyToSet) {
+    let UiFunctions = new UiClass();
     const setSubjectWindowResponse = UiFunctions.displayPrompt(UiPromptString);
     
     if (setSubjectWindowResponse) {
@@ -119,6 +121,7 @@ class controller {
           the master sheet to its children.
    */
   applyPermissions_() {
+    let UiFunctions = new UiClass();
     let applyPermissionsBool = UiFunctions.displayYesNoChoice(`Would you like 
         changes in range and sheet protections to be applied to the target 
         range(s) and sheet(s)?`);

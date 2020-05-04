@@ -43,7 +43,8 @@ function isRangeWithinLargerRange(innerRange, outerRange){
  */
 function rangeValidation(rangeToUpdate){
   if (!rangeToUpdate){
-  UiFunctions.displayAlert(`No Named Range found. Please make sure the selected
+    let UiFunctions = new UiClass();
+    UiFunctions.displayAlert(`No Named Range found. Please make sure the selected
         cell is part of a Named Range.`);
         return false;
   }; 
@@ -64,6 +65,7 @@ function updateRange_(){
   let sourceRangeArray = [];
   const NAMED_RANGE_ALERT_TEXT = `No Named Range found. Please make sure the 
       selected cell is part of a Named Range.`;
+  let UiFunctions = new UiClass();
   
   for (let namedRange in namedRangesInSheet){
     let range = namedRangesInSheet[namedRange].getRange();
@@ -181,7 +183,8 @@ function updateAllSheets_() {
 /**
  * Displays a dialogue explaining to the user how they can utilize the program.
  */
-function menuHelp_(){
+function menuHelp() {
+  let UiFunctions = new UiClass();
   const folderHTMLString = (folderPropertiesObj.getFolderID()) ? 
     `<a href='https://www.drive.google.com/drive/folders/' 
     ${folderPropertiesObj.getFolderID()}target='blank'>this Drive 
@@ -252,14 +255,25 @@ const menuItems = {
 };
 
 /**
+ * Runs upon installing the program.
+  * @param {Event} onOpen event containing context regarding the document upon 
+      opening.
+ */
+function onInstall(e){
+  onOpen(e);
+  menuHelp();
+};
+
+/**
  * Function to automatically build menu upon opening the document.
  * @param {Event} onOpen event containing context regarding the document upon 
       opening.
  */
 function onOpen(e){  
+  let UiFunctions = new UiClass();
   UiFunctions.Ui
   .createMenu('Update User Sheets')
-  .addItem('Help', 'menuHelp_')
+  .addItem('Help', 'menuHelp')
   .addSeparator()
   .addSubMenu(UiFunctions.Ui.createMenu('Initialize Sheets')
                                .addItem('Create Sheets',

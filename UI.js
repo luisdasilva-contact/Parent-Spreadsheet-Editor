@@ -68,5 +68,3 @@ class UiClass {
     this.Ui.showSidebar(htmlOutput);
   };
 };
-
-const UiFunctions = new UiClass();

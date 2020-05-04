@@ -116,6 +116,7 @@ class sheetsToDriveInteractions {
    @return {boolean} True if there are sheets, false if there are not.
    */ 
   sheetsInFolderValidation(folderID){
+    let UiFunctions = new UiClass();
     let SHEETS_IN_DRIVE_ERROR_TEXT = `There are no Sheets in the target Drive 
         Folder. Please create at least one from the Drive Folder itself, or 
         use the Initialize Sheets menu under Update User Sheets to create them.`;
