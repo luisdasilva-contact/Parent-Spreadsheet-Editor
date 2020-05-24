@@ -1,5 +1,5 @@
 /** 
-  * Module for performing functions related to Spreadsheet manipulation. 
+  * Class for performing functions related to Spreadsheet manipulation. 
   */
  class spreadsheetFunctions {
   /**
@@ -186,10 +186,9 @@
           folderID at once.
      * @param {String} folderID The ID for the Drive folder where Spreadsheets 
           will be set.   
-     * @param {Array/Sheet} sourceSheets The sheets that will be copied into 
+     * @param {Array<Sheet>} sourceSheets The sheets that will be copied into 
           every Spreadsheet in the given folder. If given as Array, will 
-          linearly loop through each sheet. If given as object, will loop 
-          through every key to retrieve sheets. 
+          linearly loop through each sheet.  
      * @param {Array<Range>/Range=} ranges Optional Range or array of Ranges, 
           used to determine which cells will be updated. If no range is given, 
           the entire sheet will be updated.    
@@ -268,10 +267,12 @@
           };
         } else {
           if (ranges){
-            let targetRangeToUnprotect = sheetToUpdate.getRange(ranges[range].getA1Notation());
+            let targetRangeToUnprotect = 
+              sheetToUpdate.getRange(ranges[range].getA1Notation());
             this.unprotectRange(targetRangeToUnprotect);            
           } else {            
-            let sheetProtection = sheetToUpdate.getProtections(SpreadsheetApp.ProtectionType.SHEET);
+            let sheetProtection = 
+              sheetToUpdate.getProtections(SpreadsheetApp.ProtectionType.SHEET);
             if (sheetProtection[0]){sheetProtection[0].remove()};            
           };
         };

@@ -61,7 +61,7 @@ function updateRange_(){
   const sourceSheet = SpreadsheetApp.getActiveSheet(); 
   const activeCell = sourceSheet.getActiveCell();
   const namedRangesInSheet = SpreadsheetApp.getActiveSheet().getNamedRanges();
-  const folderID = folderPropertiesObj.getFolderID();  
+  let folderID = folderPropertiesObj.getFolderID();  
   let sourceRangeArray = [];
   const NAMED_RANGE_ALERT_TEXT = `No Named Range found. Please make sure the 
       selected cell is part of a Named Range.`;
@@ -133,14 +133,15 @@ function updateCurrentSheet_() {
     return;
   };
   
-  let currentSheetProtections = [];
   
-  if (folderPropertiesObj.getProtectionBool() === "true"){
-    currentSheetProtections = activeSheet.getProtections(sheetProtectionType);
-  };
+    let currentSheetProtections = [];
+  
+    if (folderPropertiesObj.getProtectionBool() === "true"){
+      currentSheetProtections = activeSheet.getProtections(sheetProtectionType);
+    };
  
-  try {
-  spreadsheetFunctionsObj.updateSheetsAndRanges(
+   try {
+    spreadsheetFunctionsObj.updateSheetsAndRanges(
         folderID, activeSheet, null, currentSheetProtections);
     } catch(error){
       UiFunctions.displayAlert(`An error has occurred. Please ensure that a 
@@ -158,16 +159,16 @@ function updateAllSheets_() {
   let folderID = folderPropertiesObj.getFolderID();
   let activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
   let activeSheets = activeSpreadsheet.getSheets();
-
-  if (!sheetsToDriveInteractionsObj.sheetsInFolderValidation(folderID)) {
-    return;
-  };
   
-  let protectionsArray = [];  
-  if (folderPropertiesObj.getProtectionBool() === "true"){
-    protectionsArray = activeSpreadsheet.getProtections(sheetProtectionType);
-  };
   
+    if (!sheetsToDriveInteractionsObj.sheetsInFolderValidation(folderID)) {
+      return;
+    };
+    
+    let protectionsArray = [];  
+    if (folderPropertiesObj.getProtectionBool() === "true"){
+      protectionsArray = activeSpreadsheet.getProtections(sheetProtectionType);
+    };  
   try {
     spreadsheetFunctionsObj.updateSheetsAndRanges(
           folderID, activeSheets, null, protectionsArray);

@@ -42,8 +42,8 @@ class controller {
       case (contentPropertyEnum.FOLDER_ID):
         const currentFolderID = folderPropertiesObj.getFolderID();
         let UiFolderIDPromptString =
-            `Please enter the Google Drive folder's ID. This is the alphanumeric code 
-            in the URL when you navigate to the Drive folder in question.`;
+            `Please enter the Google Drive folder's ID. This is the alphanumeric 
+            code in the URL when you navigate to the Drive folder in question.`;
 
         if (currentFolderID) {
           UiFolderIDPromptString += this.existingListText_ + currentFolderID;
@@ -117,8 +117,8 @@ class controller {
   };
 
   /**
-    * Sets an internal boolean to whether or not protections will be carried from 
-          the master sheet to its children.
+    * Sets an internal boolean to whether or not protections will be carried 
+    *     from the master sheet to its children.
    */
   applyPermissions_() {
     let UiFunctions = new UiClass();
