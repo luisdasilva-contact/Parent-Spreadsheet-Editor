@@ -182,7 +182,7 @@
     };      
     
    /**
-     * Uses the master sheet as a template to update all sheets in the given 
+     * Uses the parent sheet as a template to update all sheets in the given 
           folderID at once.
      * @param {String} folderID The ID for the Drive folder where Spreadsheets 
           will be set.   
