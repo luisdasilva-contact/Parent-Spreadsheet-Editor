@@ -69,7 +69,7 @@ class folderProperties {
 
   /*
    * Gets the user-defined protection boolean. If true, protections from the 
-        master Spreadsheet will be applied to child Spreadsheets. If false,
+        parent Spreadsheet will be applied to child Spreadsheets. If false,
         protections will not be updated. If there is no string, or it can't 
         be returned, null is returned.
    * @return {?string} Boolean string. If it can't be returned, null is 
