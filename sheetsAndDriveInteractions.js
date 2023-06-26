@@ -5,7 +5,7 @@ class sheetsToDriveInteractions {
   /**
     * For each string in a list, creates a new Spreadsheet with that title in 
         the given Drive folder ID, and initializes with all of the Sheets
-        from the master document. Defaults to applying no permissions at this
+        from the parent document. Defaults to applying no permissions at this
         point.
     * @param {String} driveFolderID The ID for the Drive folder where 
         Spreadsheets will be created.
