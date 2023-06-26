@@ -118,7 +118,7 @@ class controller {
 
   /**
     * Sets an internal boolean to whether or not protections will be carried 
-    *     from the master sheet to its children.
+    *     from the parent sheet to its children.
    */
   applyPermissions_() {
     let UiFunctions = new UiClass();
