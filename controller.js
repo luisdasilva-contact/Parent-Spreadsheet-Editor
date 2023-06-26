@@ -17,7 +17,7 @@ class controller {
         const currentUserList = folderPropertiesObj.getUserList();
         let UiNamePromptString =
             `Please enter a list of comma-separated names, or a single name, 
-            that will each have their own Spreadsheet, made from the Master 
+            that will each have their own Spreadsheet, made from the Parent 
             Sheet.`;
           
         if (currentUserList) {
@@ -30,7 +30,7 @@ class controller {
         const currentAdminEmailList = folderPropertiesObj.getAdminEmailList();
         let UiAdminEmailPromptString =
             `Please enter a list of comma-separated emails, or a single email, 
-            that will be the editors for this master sheet.`;
+            that will be the editors for this parent sheet.`;
 
         if (currentAdminEmailList) {
           UiAdminEmailPromptString += 
