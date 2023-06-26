@@ -1,6 +1,6 @@
 ### Parent Spreadsheet Editor
 
-![Artwork for Parent Spreadsheet Editor]([https://cdnb.artstation.com/p/assets/images/images/031/301/597/4k/luis-dasilva-masterspreadsheets-01.jpg?1603216894](https://cdnb.artstation.com/p/assets/images/images/064/354/539/large/luis-dasilva-title.jpg?1687752445))
+![Artwork for Parent Spreadsheet Editor](https://cdnb.artstation.com/p/assets/images/images/064/354/539/large/luis-dasilva-title.jpg?1687752445)
 
  A program for those in need of templated Sheets files that can be updated automatically, across a large number of users. For example, those who lead data entry teams in their organization can create a parent spreadsheet, and use this program to apply formula or sheet changes to their teammates with a single button press, rather than having to manually copy/paste changes for every single user. Use of this program will not interrupt teammates' workflows; as soon as the user clicks a button to apply updates, changes will be applied from the parent spreadsheet to the other sheets without any further input needed.
 
