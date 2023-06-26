@@ -55,7 +55,7 @@ function rangeValidation(rangeToUpdate){
 /**
  * If the active cell is part of a named range, updates that named range in all 
       Spreadsheets in the designated folder,
-      using this master sheet as a template.
+      using this parent sheet as a template.
  */
 function updateRange_(){
   const sourceSheet = SpreadsheetApp.getActiveSheet(); 
@@ -123,7 +123,7 @@ function updateRange_(){
 
 /**
  * Updates the active sheet in all Spreadsheets in the designated folder, 
-      using this master sheet as a template.
+      using this parent sheet as a template.
  */
 function updateCurrentSheet_() {
   let sheetProtectionType = SpreadsheetApp.ProtectionType.SHEET;
@@ -152,7 +152,7 @@ function updateCurrentSheet_() {
 
 /**
  * Updates all sheets in all Spreadsheets in the designated folder, using this 
-      master sheet as a template.
+      parent sheet as a template.
  */
 function updateAllSheets_() {
   let sheetProtectionType = SpreadsheetApp.ProtectionType.SHEET;
@@ -195,7 +195,7 @@ function menuHelp() {
   const html = `<html><head><link rel='stylesheet' 
   href='https://fonts.googleapis.com/css?family=Roboto'>
   <style>body {font-family: 'Roboto', sans-serif; font-size: 14px}
-  </style></head><body><font face='Roboto'>This master Spreadsheet is 
+  </style></head><body><font face='Roboto'>This parent Spreadsheet is 
   used to manage changes for all spreadsheets in ${folderHTMLString}  
   These are the functions for each button in this menu: 
   <br><br>
@@ -213,9 +213,9 @@ function menuHelp() {
   <br>
   &emsp;Update Current Sheet: Update the Sheet the user is currently viewing.  
   <br>
-  &emsp;Update All Sheets: Update all Sheets in the master Spreadsheet. <br>
+  &emsp;Update All Sheets: Update all Sheets in the parent Spreadsheet. <br>
   &emsp;NOTE: This is resource-intensive. Useonly for large-scale changes.<br>
-  &emsp;Apply Permissions?: Whether or not the user wants the protections in the master
+  &emsp;Apply Permissions?: Whether or not the user wants the protections in the parent
   Spreadsheet applied to <br>&emsp;all children.
   </font></body></html>`;
   
